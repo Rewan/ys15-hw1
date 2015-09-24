@@ -17,9 +17,15 @@ public class TemperatureSeriesAnalysisTest {
 		TemperatureSeriesAnalysis T = new TemperatureSeriesAnalysis(temps);
 	}
 	
-	@Test(
-	public void testTemperatureSeriesAnalysisCreationWithList() {
-		double[] temps = {1.0, -274.0, -3.0, 352.0};
+	@Test
+	public void testTemperatureSeriesAnalysisCreationWithEmptyList() {
+		double[] temps = {};
+		TemperatureSeriesAnalysis T = new TemperatureSeriesAnalysis(temps);
+	}
+	
+	@Test
+	public void testTemperatureSeriesAnalysisCreationWithNotEmptyList() {
+		double[] temps = {1.0, -273.0, -3.0, 352.0};
 		TemperatureSeriesAnalysis T = new TemperatureSeriesAnalysis(temps);
 	}
 	
