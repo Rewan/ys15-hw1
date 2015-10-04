@@ -60,11 +60,31 @@ public class TemperatureSeriesAnalysis {
     }
     
     public double min() {
-        return 0;
+        if(size==0) throw new IllegalArgumentException();
+		
+		double min = tempsArr[0];
+		
+		for(int i = 1; i < size; i++) {
+			if(tempsArr[i] < min) {
+				min = tempsArr[i];
+			}
+		}
+		
+        return min;
     }
      
     public double max() {
-        return 0;
+        if(size==0) throw new IllegalArgumentException();
+		
+		double max = tempsArr[0];
+		
+		for(int i = 1; i < size; i++) {
+			if(tempsArr[i] > max) {
+				max = tempsArr[i];
+			}
+		}
+		
+        return max;
     }
     
     public double findTempClosestToZero() {

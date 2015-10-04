@@ -81,7 +81,6 @@ public class TemperatureSeriesAnalysisTest {
         double actualResult = seriesAnalysis.average();
         
         assertEquals(expResult, actualResult, 0.00001);
-        
     }
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -99,6 +98,37 @@ public class TemperatureSeriesAnalysisTest {
         double actualResult = seriesAnalysis.deviation();
         
         assertEquals(expResult, actualResult, 0.00001);
+    }
+	
+	@Test(expected = IllegalArgumentException.class)
+    public void testMinWithEmptyList() {
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis();
+        seriesAnalysis.min();
+    }
+	
+    @Test
+    public void testMinWithNormalListCheck() {
+        double[] startTemps = {1234.0, -25.0, -261.0, 52.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        double expResult = -261.0;
+        double actualResult = seriesAnalysis.min();
         
+        assertEquals(expResult, actualResult, 0.00001); 
+    }
+	
+	@Test(expected = IllegalArgumentException.class)
+    public void testMaxWithEmptyList() {
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis();
+        seriesAnalysis.max();
+    }
+	
+    @Test
+    public void testMaxWithNormalListCheck() {
+        double[] startTemps = {14.0, -25.0, 1261.0, -252.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        double expResult = 1261.0;
+        double actualResult = seriesAnalysis.max();
+        
+        assertEquals(expResult, actualResult, 0.00001); 
     }
 }
