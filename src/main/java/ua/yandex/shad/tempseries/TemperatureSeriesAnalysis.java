@@ -2,6 +2,7 @@ package ua.yandex.shad.tempseries;
 
 import java.util.InputMismatchException;
 
+
 public class TemperatureSeriesAnalysis {    
 
 	public static final double MINIMAL_TEMPERATURE = -273.0;
@@ -24,17 +25,38 @@ public class TemperatureSeriesAnalysis {
     
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
 		if(checkArrayForOutOfRange(temperatureSeries)) throw new InputMismatchException();
-		
 		tempsArr = temperatureSeries.clone();
 		size = temperatureSeries.length;
+		
+		if(temperatureSeries.length == 0) {
+			tempsArr = new double[1];
+		}
     }
     
-    public double average() {        
-        return 0;
+    public double average() {
+		if(size==0) throw new IllegalArgumentException();
+		
+		double sum = 0.0;
+		for(int i = 0; i < size; i++) {
+			sum += tempsArr[i];
+		}
+		
+		double ans = sum/size;
+        return ans;
     }    
     
     public double deviation() {
-        return 0;
+        if(size==0) throw new IllegalArgumentException();
+		
+		double averageTemp = average();
+		
+		double sum = 0.0;
+		for(int i = 0; i < size; i++) {
+			sum += (tempsArr[i] - averageTemp)*(tempsArr[i] - averageTemp);
+		}
+		
+		double ans = Math.sqrt((sum/size));
+        return ans;
     }
     
     public double min() {
@@ -66,12 +88,30 @@ public class TemperatureSeriesAnalysis {
     }
     
     public int addTemps(double ... temps) {
-		if(checkArrayForOutOfRange(temps)) throw new InputMismatchException();
+		if(checkArrayForOutOfRange(temps)) 
+			throw new InputMismatchException();
 		
 		if(temps.length+size>tempsArr.length) {
 			
+			int n = tempsArr.length;
+			
+			while(n < temps.length+size) {
+				n *= 2;
+			}
+			
+			double[] old = new double[tempsArr.length];
+			System.arraycopy(tempsArr, 0, old, 0, tempsArr.length);
+			
+			tempsArr = new double[n];
+			System.arraycopy(old, 0, tempsArr, 0, old.length);
 		}
 		
-        return this.size;
+		if(temps.length > 0) {
+			System.arraycopy(temps, 0, tempsArr, size, temps.length);
+		
+			size += temps.length;
+		}
+		
+        return size;
     }
 }
