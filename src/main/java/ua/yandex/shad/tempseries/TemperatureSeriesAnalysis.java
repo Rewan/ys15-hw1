@@ -88,11 +88,36 @@ public class TemperatureSeriesAnalysis {
     }
     
     public double findTempClosestToZero() {
-        return 0;
+        if(size == 0) throw new IllegalArgumentException();
+		
+		double ans = tempsArr[0];
+		
+		for(int i = 1; i < size; i++) {
+			if(tempsArr[i] == Math.abs(ans)) {
+				ans = tempsArr[i];
+			}
+			if(Math.abs(tempsArr[i]) < Math.abs(ans)) {
+				ans = tempsArr[i];
+			}
+		}
+		
+		return ans;
     }
     
+	public void addToTemps(double tempValue) {
+		for(int i = 0; i < size; i++) {
+			tempsArr[i] += tempValue;
+		}
+	}
+	
     public double findTempClosestToValue(double tempValue) {
-        return 0;
+        if(size == 0) throw new IllegalArgumentException();
+		
+		addToTemps(-tempValue);
+		double ans = findTempClosestToZero() + tempValue;
+		addToTemps(tempValue);
+        
+		return ans;
 }
     
     public double[] findTempsLessThen(double tempValue) {
