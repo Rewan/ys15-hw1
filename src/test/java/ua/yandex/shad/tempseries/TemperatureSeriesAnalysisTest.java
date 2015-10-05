@@ -175,7 +175,7 @@ public class TemperatureSeriesAnalysisTest {
     }
 	
 	@Test
-    public void testFindTempClosestToValueWithListWithLesserAndBiggerElementsThatHaveEqualDeltaCheck() {
+    public void testFindTempClosestToValueWithListWithLesserAndGreaterElementsThatHaveEqualDeltaCheck() {
         double[] startTemps = {0.0, 10.0, 20.0, 30.0};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
         double expResult = 20.0;
@@ -183,4 +183,92 @@ public class TemperatureSeriesAnalysisTest {
         
         assertEquals(expResult, actualResult, 0.00001); 
     }
+	
+	@Test(expected = IllegalArgumentException.class)
+    public void testFindTempsLessThenWithEmptyList() {
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis();
+        seriesAnalysis.findTempsLessThen(0.0);
+    }
+	
+	@Test
+	public void testFindTempsLessThenWithNormalListCheck() {
+		double[] startTemps = {41.0, -11.0, 10.0, 123.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        double[] expResult = {-11.0};
+        double[] actualResult = seriesAnalysis.findTempsLessThen(1.0);
+        
+        assertArrayEquals(expResult, actualResult, 0.00001); 
+	}
+	
+	@Test
+	public void testFindTempsLessThenWithNullAnswerCheck() {
+		double[] startTemps = {5.1, 11.0, 321.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        double[] expResult = null;
+        double[] actualResult = seriesAnalysis.findTempsLessThen(1.0);
+        
+        assertArrayEquals(expResult, actualResult, 0.00001); 
+	}
+	
+	@Test
+	public void testFindTempsLessThenWithListWithBorderElementCheck() {
+		double[] startTemps = {56.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        double[] expResult = null;
+        double[] actualResult = seriesAnalysis.findTempsLessThen(56.0);
+        
+        assertArrayEquals(expResult, actualResult, 0.00001); 
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+    public void testFindTempsGreaterThenWithEmptyList() {
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis();
+        seriesAnalysis.findTempsGreaterThen(0.0);
+    }
+	
+	@Test
+	public void testFindTempsGreaterThenWithNormalListCheck() {
+		double[] startTemps = {-63.1, -14.0, 83.0, 285.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        double[] expResult = {83.0, 285.0};
+        double[] actualResult = seriesAnalysis.findTempsGreaterThen(15.0);
+        
+        assertArrayEquals(expResult, actualResult, 0.00001); 
+	}
+	
+	@Test
+	public void testFindTempsGreaterThenWithNullAnswerCheck() {
+		double[] startTemps = {-25.0, 15.0, -200.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        double[] expResult = null;
+        double[] actualResult = seriesAnalysis.findTempsGreaterThen(16.0);
+        
+        assertArrayEquals(expResult, actualResult, 0.00001); 
+	}
+	
+	@Test
+	public void testFindTempsGreaterThenWithListWithBorderElementCheck() {
+		double[] startTemps = {-270.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        double[] expResult = {-270.0};
+        double[] actualResult = seriesAnalysis.findTempsGreaterThen(-270.0);
+		
+        assertArrayEquals(expResult, actualResult, 0.00001); 
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testSummaryStatisticsWithEmptyList() {
+		TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis();
+        seriesAnalysis.summaryStatistics();
+	}
+	
+	@Test
+	public void testSummaryStatisticsWithNormalListCheck() {
+		double[] startTemps = {-5.0, 1.0, -1.0, 5.0};
+        TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
+        TempSummaryStatistics expResult = new TempSummaryStatistics(0.0, 3.6055512754, -5.0, 5.0);
+        TempSummaryStatistics actualResult = seriesAnalysis.summaryStatistics();
+		
+		assertEquals(expResult,actualResult);
+	}
 }

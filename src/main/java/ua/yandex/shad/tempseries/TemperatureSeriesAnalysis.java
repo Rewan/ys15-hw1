@@ -2,7 +2,6 @@ package ua.yandex.shad.tempseries;
 
 import java.util.InputMismatchException;
 
-
 public class TemperatureSeriesAnalysis {    
 
 	public static final double MINIMAL_TEMPERATURE = -273.0;
@@ -18,13 +17,27 @@ public class TemperatureSeriesAnalysis {
 		return false;
 	}
 	
+	public void checkInputMistmach(double ... temps) {
+		if(checkArrayForOutOfRange(temps)) 
+			throw new InputMismatchException();
+	}
+	
+	public boolean checkEmpty() {
+		return size == 0;
+	}
+	
+	public void checkIllegalArgument() {
+		if(checkEmpty()) 
+			throw new IllegalArgumentException();
+	}
+	
     public TemperatureSeriesAnalysis() {
         tempsArr = new double[1000];
 		size = 0;
     }
     
     public TemperatureSeriesAnalysis(double[] temperatureSeries) {
-		if(checkArrayForOutOfRange(temperatureSeries)) throw new InputMismatchException();
+		checkInputMistmach(temperatureSeries);
 		tempsArr = temperatureSeries.clone();
 		size = temperatureSeries.length;
 		
@@ -34,7 +47,7 @@ public class TemperatureSeriesAnalysis {
     }
     
     public double average() {
-		if(size==0) throw new IllegalArgumentException();
+		checkIllegalArgument();
 		
 		double sum = 0.0;
 		for(int i = 0; i < size; i++) {
@@ -46,7 +59,7 @@ public class TemperatureSeriesAnalysis {
     }    
     
     public double deviation() {
-        if(size==0) throw new IllegalArgumentException();
+        checkIllegalArgument();
 		
 		double averageTemp = average();
 		
@@ -60,7 +73,7 @@ public class TemperatureSeriesAnalysis {
     }
     
     public double min() {
-        if(size==0) throw new IllegalArgumentException();
+        checkIllegalArgument();
 		
 		double min = tempsArr[0];
 		
@@ -74,7 +87,7 @@ public class TemperatureSeriesAnalysis {
     }
      
     public double max() {
-        if(size==0) throw new IllegalArgumentException();
+        checkIllegalArgument();
 		
 		double max = tempsArr[0];
 		
@@ -88,7 +101,7 @@ public class TemperatureSeriesAnalysis {
     }
     
     public double findTempClosestToZero() {
-        if(size == 0) throw new IllegalArgumentException();
+        checkIllegalArgument();
 		
 		double ans = tempsArr[0];
 		
@@ -111,30 +124,81 @@ public class TemperatureSeriesAnalysis {
 	}
 	
     public double findTempClosestToValue(double tempValue) {
-        if(size == 0) throw new IllegalArgumentException();
+        checkIllegalArgument();
 		
 		addToTemps(-tempValue);
 		double ans = findTempClosestToZero() + tempValue;
 		addToTemps(tempValue);
         
 		return ans;
-}
+	}
     
     public double[] findTempsLessThen(double tempValue) {
-        return null;
+		checkIllegalArgument();
+		
+		double[] arr = new double[tempsArr.length];
+		int arrSize = 0;
+		for(int i = 0; i < size; i++) {
+			if(tempsArr[i]<tempValue) {
+				arr[arrSize++] = tempsArr[i];
+			}
+		}
+		
+		double[] ans = new double[arrSize];
+		
+		if(arrSize==0) {
+			return null;
+		}
+		
+		System.arraycopy(arr, 0, ans, 0, arrSize);
+        return ans;
     }
     
     public double[] findTempsGreaterThen(double tempValue) {
-        return null;
+		double[] less = findTempsLessThen(tempValue);
+		
+		if(less == null) {
+			return tempsArr.clone();
+		}
+		
+		if(less.length == tempsArr.length) {
+			return null;
+		}
+		
+		double[] ans = new double[tempsArr.length - less.length];
+		int ansSize = 0;
+		
+		for(int i = 0; i < size; i++) {
+			boolean was = false;
+			for(int j = 0; j < less.length; j++) {
+				if(tempsArr[i] == less[j]) {
+					was = true;
+					break;
+				}
+			}
+			if(!was) {
+				ans[ansSize++] = tempsArr[i];
+			}
+		}
+		
+        return ans;
     }
     
     public TempSummaryStatistics summaryStatistics() {
-        return null;
+		checkIllegalArgument();
+		
+		double avg = average();
+		double dev = deviation();
+		double min = min();
+		double max = max();
+		
+		TempSummaryStatistics ans = new TempSummaryStatistics(avg, dev, min, max);
+		
+        return ans;
     }
     
     public int addTemps(double ... temps) {
-		if(checkArrayForOutOfRange(temps)) 
-			throw new InputMismatchException();
+		checkInputMistmach(temps);
 		
 		if(temps.length+size>tempsArr.length) {
 			
