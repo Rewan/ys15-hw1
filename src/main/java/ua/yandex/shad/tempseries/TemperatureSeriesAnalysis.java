@@ -35,12 +35,7 @@ public class TemperatureSeriesAnalysis {
 		}
 	}
 	
-    public TemperatureSeriesAnalysis() {
-        tempsArr = new double[1];
-		size = 0;
-    }
-    
-    public TemperatureSeriesAnalysis(double[] temperatureSeries) {
+	public TemperatureSeriesAnalysis(double[] temperatureSeries) {
 		checkInputMistmach(temperatureSeries);
 		tempsArr = temperatureSeries.clone();
 		size = temperatureSeries.length;
@@ -49,6 +44,12 @@ public class TemperatureSeriesAnalysis {
 			tempsArr = new double[1];
 		}
     }
+	
+    public TemperatureSeriesAnalysis() {
+        tempsArr = new double[1];
+		size = 0;
+    }
+    
     
     public double average() {
 		checkIllegalArgument();
@@ -69,7 +70,7 @@ public class TemperatureSeriesAnalysis {
 		
 		double sum = 0.0;
 		for (int i = 0; i < size; i++) {
-			double x = (tempsArr[i] - averageTemp);
+			double x = tempsArr[i] - averageTemp;
 			sum += x*x;
 		}
 		
@@ -82,8 +83,8 @@ public class TemperatureSeriesAnalysis {
 		
 		double min = tempsArr[0];
 		
-		for(int i = 1; i < size; i++) {
-			if(tempsArr[i] < min) {
+		for (int i = 1; i < size; i++) {
+			if (tempsArr[i] < min) {
 				min = tempsArr[i];
 			}
 		}
@@ -197,7 +198,8 @@ public class TemperatureSeriesAnalysis {
 		double min = min();
 		double max = max();
 		
-		TempSummaryStatistics ans = new TempSummaryStatistics(avg, dev, min, max);
+		TempSummaryStatistics ans = 
+			new TempSummaryStatistics(avg, dev, min, max);
 		
         return ans;
     }
@@ -220,7 +222,8 @@ public class TemperatureSeriesAnalysis {
 		}
 		
 		if (temps.length > 0) {
-			System.arraycopy(temps, 0, tempsArr, size, temps.length);
+			System.arraycopy(temps, 0, 
+				tempsArr, size, temps.length);
 		
 			size += temps.length;
 		}

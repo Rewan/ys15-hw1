@@ -2,14 +2,14 @@ package ua.yandex.shad.tempseries;
 
 public class TempSummaryStatistics {
     public static final double EPSILON = 0.00001;
-	
+
 	private final double avgTemp;
 	private final double devTemp;
 	private final double minTemp;
 	private final double maxTemp;
 	
 	public TempSummaryStatistics(double avg, double dev, 
-								 double min, double max) {
+								double min, double max) {
 		avgTemp = avg;
 		devTemp = dev;
 		minTemp = min;
