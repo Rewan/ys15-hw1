@@ -2,6 +2,7 @@ package ua.yandex.shad.tempseries;
 
 import java.util.InputMismatchException;
 
+
 public class TemperatureSeriesAnalysis {    
 
 	public static final double MINIMAL_TEMPERATURE = -273.0;
