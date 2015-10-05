@@ -10,6 +10,21 @@ public class TemperatureSeriesAnalysis {
 	private double[] tempsArr;
 	private int size;
 
+	public TemperatureSeriesAnalysis() {
+        tempsArr = new double[1];
+		size = 0;
+    }
+	
+	public TemperatureSeriesAnalysis(double[] temperatureSeries) {
+		checkInputMistmach(temperatureSeries);
+		tempsArr = temperatureSeries.clone();
+		size = temperatureSeries.length;
+		
+		if (temperatureSeries.length == 0) {
+			tempsArr = new double[1];
+		}
+    }
+	
 	public boolean checkArrayForOutOfRange(double ... temps) {
 		for (double x: temps) {
 			if (x < MINIMAL_TEMPERATURE) {
@@ -35,21 +50,6 @@ public class TemperatureSeriesAnalysis {
 			throw new IllegalArgumentException();
 		}
 	}
-	
-	public TemperatureSeriesAnalysis() {
-        tempsArr = new double[1];
-		size = 0;
-    }
-	
-	public TemperatureSeriesAnalysis(double[] temperatureSeries) {
-		checkInputMistmach(temperatureSeries);
-		tempsArr = temperatureSeries.clone();
-		size = temperatureSeries.length;
-		
-		if (temperatureSeries.length == 0) {
-			tempsArr = new double[1];
-		}
-    }
     
     public double average() {
 		checkIllegalArgument();
