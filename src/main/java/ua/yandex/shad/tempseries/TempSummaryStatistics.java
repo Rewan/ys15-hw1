@@ -1,6 +1,7 @@
 package ua.yandex.shad.tempseries;
 
 public class TempSummaryStatistics {
+	
     public static final double EPSILON = 0.00001;
 
 	private final double avgTemp;
