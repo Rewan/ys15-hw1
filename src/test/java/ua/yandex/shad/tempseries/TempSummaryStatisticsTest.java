@@ -20,6 +20,13 @@ public class TempSummaryStatisticsTest {
 	}
 	
 	@Test
+	public void testEqualsWithItself() {
+		TempSummaryStatistics T1 = new TempSummaryStatistics(0.0,0.0,0.0,0.0);
+		
+		assertTrue(T1.equals(T1)); 
+	}
+	
+	@Test
 	public void testEqualsWithNull() {
 		TempSummaryStatistics T1 = new TempSummaryStatistics(0.0,0.0,0.0,0.0);
 		TempSummaryStatistics T2 = null;
@@ -57,5 +64,19 @@ public class TempSummaryStatisticsTest {
 		TempSummaryStatistics T2 = new TempSummaryStatistics(0.0,0.0,0.0,0.1);
 		
 		assertFalse(T1.equals(T2)); 
+	}
+	
+	@Test
+	public void testEqualsCheck() {
+		TempSummaryStatistics T1 = new TempSummaryStatistics(0.0,0.0,0.0,0.0);
+		TempSummaryStatistics T2 = new TempSummaryStatistics(0.0,0.0,0.0,0.0);
+		
+		assertTrue(T1.equals(T2)); 
+	}
+	
+	@Test(expected = AssertionError.class)
+	public void testHashCode() {
+		TempSummaryStatistics T1 = new TempSummaryStatistics(0.0,0.0,0.0,0.0);
+		T1.hashCode();
 	}
 }
