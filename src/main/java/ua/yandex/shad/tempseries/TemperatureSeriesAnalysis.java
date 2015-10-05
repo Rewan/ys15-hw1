@@ -2,9 +2,8 @@ package ua.yandex.shad.tempseries;
 
 import java.util.InputMismatchException;
 
-public class TemperatureSeriesAnalysis {	
-	
-	public static final double EPSILON = 0.00001;
+public class TemperatureSeriesAnalysis {
+    public static final double EPSILON = 0.00001;
 	public static final double MINIMAL_TEMPERATURE = -273.0;
 
 	private double[] tempsArr;
