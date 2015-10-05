@@ -204,7 +204,7 @@ public class TemperatureSeriesAnalysisTest {
 	public void testFindTempsLessThenWithNullAnswerCheck() {
 		double[] startTemps = {5.1, 11.0, 321.0};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
-        double[] expResult = null;
+        double[] expResult = {};
         double[] actualResult = seriesAnalysis.findTempsLessThen(1.0);
         
         assertArrayEquals(expResult, actualResult, 0.00001); 
@@ -214,7 +214,7 @@ public class TemperatureSeriesAnalysisTest {
 	public void testFindTempsLessThenWithListWithBorderElementCheck() {
 		double[] startTemps = {56.0};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
-        double[] expResult = null;
+        double[] expResult = {};
         double[] actualResult = seriesAnalysis.findTempsLessThen(56.0);
         
         assertArrayEquals(expResult, actualResult, 0.00001); 
@@ -240,7 +240,7 @@ public class TemperatureSeriesAnalysisTest {
 	public void testFindTempsGreaterThenWithNullAnswerCheck() {
 		double[] startTemps = {-25.0, 15.0, -200.0};
         TemperatureSeriesAnalysis seriesAnalysis = new TemperatureSeriesAnalysis(startTemps);
-        double[] expResult = null;
+        double[] expResult = {};
         double[] actualResult = seriesAnalysis.findTempsGreaterThen(16.0);
         
         assertArrayEquals(expResult, actualResult, 0.00001); 

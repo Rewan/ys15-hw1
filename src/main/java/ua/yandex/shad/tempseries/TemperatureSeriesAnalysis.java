@@ -2,25 +2,27 @@ package ua.yandex.shad.tempseries;
 
 import java.util.InputMismatchException;
 
-
-public class TemperatureSeriesAnalysis {    
-
+public class TemperatureSeriesAnalysis {
+	public static final double EPSILON = 0.00001;
 	public static final double MINIMAL_TEMPERATURE = -273.0;
 
 	private double[] tempsArr;
 	private int size;
 
 	public boolean checkArrayForOutOfRange(double ... temps) {
-		for(double x: temps) {
-			if(x < MINIMAL_TEMPERATURE) return  true;
+		for (double x: temps) {
+			if (x < MINIMAL_TEMPERATURE) {
+				return  true;
+			}
 		}
 		
 		return false;
 	}
 	
 	public void checkInputMistmach(double ... temps) {
-		if(checkArrayForOutOfRange(temps)) 
+		if (checkArrayForOutOfRange(temps)) {
 			throw new InputMismatchException();
+		}
 	}
 	
 	public boolean checkEmpty() {
@@ -28,12 +30,13 @@ public class TemperatureSeriesAnalysis {
 	}
 	
 	public void checkIllegalArgument() {
-		if(checkEmpty()) 
+		if (checkEmpty()) {
 			throw new IllegalArgumentException();
+		}
 	}
 	
     public TemperatureSeriesAnalysis() {
-        tempsArr = new double[1000];
+        tempsArr = new double[1];
 		size = 0;
     }
     
@@ -42,7 +45,7 @@ public class TemperatureSeriesAnalysis {
 		tempsArr = temperatureSeries.clone();
 		size = temperatureSeries.length;
 		
-		if(temperatureSeries.length == 0) {
+		if (temperatureSeries.length == 0) {
 			tempsArr = new double[1];
 		}
     }
@@ -51,7 +54,7 @@ public class TemperatureSeriesAnalysis {
 		checkIllegalArgument();
 		
 		double sum = 0.0;
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			sum += tempsArr[i];
 		}
 		
@@ -65,11 +68,12 @@ public class TemperatureSeriesAnalysis {
 		double averageTemp = average();
 		
 		double sum = 0.0;
-		for(int i = 0; i < size; i++) {
-			sum += (tempsArr[i] - averageTemp)*(tempsArr[i] - averageTemp);
+		for (int i = 0; i < size; i++) {
+			double x = (tempsArr[i] - averageTemp);
+			sum += x*x;
 		}
 		
-		double ans = Math.sqrt((sum/size));
+		double ans = Math.sqrt(sum/size);
         return ans;
     }
     
@@ -92,8 +96,8 @@ public class TemperatureSeriesAnalysis {
 		
 		double max = tempsArr[0];
 		
-		for(int i = 1; i < size; i++) {
-			if(tempsArr[i] > max) {
+		for (int i = 1; i < size; i++) {
+			if (tempsArr[i] > max) {
 				max = tempsArr[i];
 			}
 		}
@@ -106,11 +110,11 @@ public class TemperatureSeriesAnalysis {
 		
 		double ans = tempsArr[0];
 		
-		for(int i = 1; i < size; i++) {
-			if(tempsArr[i] == Math.abs(ans)) {
+		for (int i = 1; i < size; i++) {
+			if (Math.abs(tempsArr[i] - Math.abs(ans)) < EPSILON) {
 				ans = tempsArr[i];
 			}
-			if(Math.abs(tempsArr[i]) < Math.abs(ans)) {
+			if (Math.abs(tempsArr[i]) < Math.abs(ans)) {
 				ans = tempsArr[i];
 			}
 		}
@@ -119,7 +123,7 @@ public class TemperatureSeriesAnalysis {
     }
     
 	public void addToTemps(double tempValue) {
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			tempsArr[i] += tempValue;
 		}
 	}
@@ -139,16 +143,16 @@ public class TemperatureSeriesAnalysis {
 		
 		double[] arr = new double[tempsArr.length];
 		int arrSize = 0;
-		for(int i = 0; i < size; i++) {
-			if(tempsArr[i]<tempValue) {
+		for (int i = 0; i < size; i++) {
+			if (tempsArr[i] < tempValue) {
 				arr[arrSize++] = tempsArr[i];
 			}
 		}
 		
 		double[] ans = new double[arrSize];
 		
-		if(arrSize==0) {
-			return null;
+		if (arrSize == 0) {
+			return new double[0];
 		}
 		
 		System.arraycopy(arr, 0, ans, 0, arrSize);
@@ -158,26 +162,26 @@ public class TemperatureSeriesAnalysis {
     public double[] findTempsGreaterThen(double tempValue) {
 		double[] less = findTempsLessThen(tempValue);
 		
-		if(less == null) {
+		if (less.length == 0) {
 			return tempsArr.clone();
 		}
 		
-		if(less.length == tempsArr.length) {
-			return null;
+		if (less.length == tempsArr.length) {
+			return new double[0];
 		}
 		
 		double[] ans = new double[tempsArr.length - less.length];
 		int ansSize = 0;
 		
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			boolean was = false;
-			for(int j = 0; j < less.length; j++) {
-				if(tempsArr[i] == less[j]) {
+			for (int j = 0; j < less.length; j++) {
+				if (Math.abs(tempsArr[i] - less[j]) < EPSILON) {
 					was = true;
 					break;
 				}
 			}
-			if(!was) {
+			if (!was) {
 				ans[ansSize++] = tempsArr[i];
 			}
 		}
@@ -201,11 +205,10 @@ public class TemperatureSeriesAnalysis {
     public int addTemps(double ... temps) {
 		checkInputMistmach(temps);
 		
-		if(temps.length+size>tempsArr.length) {
-			
+		if (temps.length + size > tempsArr.length) {
 			int n = tempsArr.length;
 			
-			while(n < temps.length+size) {
+			while (n < temps.length+size) {
 				n *= 2;
 			}
 			
@@ -216,7 +219,7 @@ public class TemperatureSeriesAnalysis {
 			System.arraycopy(old, 0, tempsArr, 0, old.length);
 		}
 		
-		if(temps.length > 0) {
+		if (temps.length > 0) {
 			System.arraycopy(temps, 0, tempsArr, size, temps.length);
 		
 			size += temps.length;
