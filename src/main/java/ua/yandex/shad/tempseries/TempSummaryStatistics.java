@@ -9,7 +9,7 @@ public class TempSummaryStatistics {
 	private final double maxTemp;
 	
 	public TempSummaryStatistics(double avg, double dev, 
-								double min, double max) {
+			double min, double max) {
 		avgTemp = avg;
 		devTemp = dev;
 		minTemp = min;

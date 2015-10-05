@@ -35,6 +35,11 @@ public class TemperatureSeriesAnalysis {
 		}
 	}
 	
+	public TemperatureSeriesAnalysis() {
+        tempsArr = new double[1];
+		size = 0;
+    }
+	
 	public TemperatureSeriesAnalysis(double[] temperatureSeries) {
 		checkInputMistmach(temperatureSeries);
 		tempsArr = temperatureSeries.clone();
@@ -44,12 +49,6 @@ public class TemperatureSeriesAnalysis {
 			tempsArr = new double[1];
 		}
     }
-	
-    public TemperatureSeriesAnalysis() {
-        tempsArr = new double[1];
-		size = 0;
-    }
-    
     
     public double average() {
 		checkIllegalArgument();
